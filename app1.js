@@ -476,15 +476,15 @@ async function fetchMetricsFromSonarCloud(projectKey, branch, sonarAuthToken) {
         if (sonarCloudMetricMap.has(el.author)) {
           sonarCloudMetricMap.get(el.author)[el.severity] =
             sonarCloudMetricMap.get(el.author)[el.severity] !== undefined &&
-          sonarCloudMetricMap.get(el.author)[el.severity] !== null
-            ? ++sonarCloudMetricMap.get(el.author)[el.severity]
-            : ++severityCount;
-          
-            sonarCloudMetricMap.get(el.author)[el.type] =
+            sonarCloudMetricMap.get(el.author)[el.severity] !== null
+              ? ++sonarCloudMetricMap.get(el.author)[el.severity]
+              : ++severityCount;
+
+          sonarCloudMetricMap.get(el.author)[el.type] =
             sonarCloudMetricMap.get(el.author)[el.type] !== undefined &&
-          sonarCloudMetricMap.get(el.author)[el.type] !== null
-            ? ++sonarCloudMetricMap.get(el.author)[el.type]
-            : ++metricCount;
+            sonarCloudMetricMap.get(el.author)[el.type] !== null
+              ? ++sonarCloudMetricMap.get(el.author)[el.type]
+              : ++metricCount;
         } else {
           obj["author"] = el.author;
           obj[el.severity] = ++severityCount;
@@ -498,12 +498,11 @@ async function fetchMetricsFromSonarCloud(projectKey, branch, sonarAuthToken) {
     ++pageNumber;
   }
 
-  console.log(sonarCloudMetricMap);
   const sonarCloudMetricsIterator = sonarCloudMetricMap[Symbol.iterator]();
   for (const el of sonarCloudMetricsIterator) {
-    sonarMetricObj[el[0]] = el[1];
+    sonarMetricsArray.push(el[1]);
   }
-  return sonarMetricObj
+  return sonarMetricsArray;
 }
 
 fetchMetricsFromSonarCloud(
